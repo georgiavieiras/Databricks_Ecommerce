@@ -1,0 +1,140 @@
+resources:
+  jobs:
+    Pipeline_Ecommerce:
+      name: Pipeline_Ecommerce
+      tasks:
+        - task_key: Bronze_avaliacoes
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.avaliacoes
+              target_table: avaliacoes
+            source: WORKSPACE
+        - task_key: Bronze_categorias
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.categorias
+              target_table: categorias
+            source: WORKSPACE
+        - task_key: Bronze_clientes
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.clientes
+              target_table: clientes
+            source: WORKSPACE
+        - task_key: Bronze_itens_pedido
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.itens_pedido
+              target_table: itens_pedido
+            source: WORKSPACE
+        - task_key: Bronze_pagamentos
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.pagamentos
+              target_table: pagamentos
+            source: WORKSPACE
+        - task_key: Bronze_pedidos
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.pedidos
+              target_table: pedidos
+            source: WORKSPACE
+        - task_key: Bronze_produto
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/0.
+              Bronze/Ingestão Bronze Genérica
+            base_parameters:
+              catalog: ecommerce
+              schema: bronze
+              source_table: public.produtos
+              target_table: produtos
+            source: WORKSPACE
+        - task_key: Silver_avaliacoes
+          depends_on:
+            - task_key: Bronze_avaliacoes
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_avaliacoes
+            source: WORKSPACE
+        - task_key: Silver_categorias
+          depends_on:
+            - task_key: Bronze_categorias
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_categorias
+            source: WORKSPACE
+        - task_key: Silver_clientes
+          depends_on:
+            - task_key: Bronze_clientes
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_clientes
+            source: WORKSPACE
+        - task_key: Silver_itens_pedido
+          depends_on:
+            - task_key: Bronze_itens_pedido
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_itens_pedido
+            source: WORKSPACE
+        - task_key: Silver_pagamentos
+          depends_on:
+            - task_key: Bronze_pagamentos
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_pagamentos
+            source: WORKSPACE
+        - task_key: Silver_pedidos
+          depends_on:
+            - task_key: Bronze_pedidos
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_pedidos
+            source: WORKSPACE
+        - task_key: Silver_produto
+          depends_on:
+            - task_key: Bronze_produto
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_produtos
+            source: WORKSPACE
+        - task_key: Silver_obt_ecommerce
+          depends_on:
+            - task_key: Silver_avaliacoes
+            - task_key: Silver_categorias
+            - task_key: Silver_produto
+            - task_key: Silver_pagamentos
+            - task_key: Silver_itens_pedido
+            - task_key: Silver_pedidos
+            - task_key: Silver_clientes
+          notebook_task:
+            notebook_path: /Workspace/Users/georgiavieiras@gmail.com/Ecommerce/Databricks_Ecommerce/1.
+              Silver/Silver_OBT
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
